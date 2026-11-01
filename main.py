@@ -356,13 +356,13 @@ def parse_broadcast_buttons(text: str):
 # === ПРЕМИУМ ЭМОДЗИ ===
 EMOJI_CARD     = '<tg-emoji emoji-id="5470060791883374114">🪪</tg-emoji>'
 EMOJI_WRITE    = '<tg-emoji emoji-id="5375296873982604963">✍️</tg-emoji>'
-EMOJI_MONEY    = '<tg-emoji emoji-id="5373001317042101552">💰</tg-emoji>'
+EMOJI_MONEY    = '<tg-emoji emoji-id="5231449120635370684">💸</tg-emoji>'
 EMOJI_CHART_UP = '<tg-emoji emoji-id="5431577498364158238">📈</tg-emoji>'
 EMOJI_CHART    = '<tg-emoji emoji-id="5458799228719472718">📊</tg-emoji>'
 EMOJI_STAR_BIG = '<tg-emoji emoji-id="5370869711888194012">🌟</tg-emoji>'
 EMOJI_INVADER  = '<tg-emoji emoji-id="5805528485371843693">👾</tg-emoji>'
 EMOJI_LIGHT    = '<tg-emoji emoji-id="5427168083074628963">⚡️</tg-emoji>'
-EMOJI_DIAMOND  = '<tg-emoji emoji-id="6041761071155386269">💎</tg-emoji>'
+EMOJI_DIAMOND  = '<tg-emoji emoji-id="5427168083074628963">💎</tg-emoji>'
 EMOJI_ROCKET   = '<tg-emoji emoji-id="5805630830147540745">🚀</tg-emoji>'
 EMOJI_SPARKLES = '<tg-emoji emoji-id="5190498849440931467">✨</tg-emoji>'
 EMOJI_DEV      = '<tg-emoji emoji-id="5373012449597335010">👨‍💻</tg-emoji>'
@@ -1334,24 +1334,24 @@ def handle_all_text(message):
         line2 = f"{EMOJI_CLIP} <b>РЕКВИЗИТЫ ДЛЯ ОПЛАТЫ (СБП / ПЕРЕВОД):</b>"
         line3 = f"{EMOJI_WARN} Демид Андреевич П."
         line4 = f"{EMOJI_WARN} Банк: <b>ВТБ</b>"
-        line5 = f"{EMOJI_WARN} <i>При переводе на другой банк — GMP не выдаю!</i>"
-        line6 = f"{EMOJI_PHONE} <b>Номер (СБП):</b>\n<code>+79142515945</code>"
+        line5 = f"{EMOJI_WARN} Будьте внимательны: <i>при переводе на другой банк средства не возвращаю, <b>GMP</b> не выдаю!</i>"
+        line6 = f"{EMOJI_PHONE} <b>Номер телефона (СБП):</b>\n<code>+79142515945</code>"
         line7 = (
-            f"{EMOJI_CSECK} <b>ОБЯЗАТЕЛЬНОЕ ОПИСАНИЕ ПЕРЕВОДА:</b>\n"
-            f"Напишите ОДНУ из фраз:\n"
+            f"{EMOJI_CSECK} <b>ОБЯЗАТЕЛЬНОЕ ПОЛЕ «ОПИСАНИЕ/СООБЩЕНИЕ ПОЛУЧАТЕЛЮ»:</b>\n"
+            f"При переводе в приложении банка в поле описания напишите ОДНУ из фраз:\n"
             f"{EMOJI_CHECC} <code>на подарок</code>\n"
             f"{EMOJI_CHECC} спасибо за помощь\n"
             f"{EMOJI_CHECC} <code>сбор</code>\n"
             f"{EMOJI_CHECC} <code>на общие нужды</code>\n\n"
-            f"{EMOJI_WARN * 2} <b>ВНИМАНИЕ:</b> Без описания — <b>выдаётся только 50% GMP!</b>"
+            f"{EMOJI_WARN * 2} <b>ВНИМАНИЕ:</b>Если вы переведёте без указания одного из этих описаний —<b>будет выдано только 50% GMP</b> (штраф 50% без возврата!)"
         )
         line8 = (
-            f"{EMOJI_CAMERA} <b>ИНСТРУКЦИЯ:</b>\n"
+            f"{EMOJI_CAMERA} <b>ИНСТРУКЦИЯ К ОПЛАТЕ:</b>\n"
             f"1. Переведите <b>{int(rub_value)}₽</b> на ВТБ.\n"
             f"2. Укажите в комментарии одну из фраз выше.\n"
-            f"3. Сохраните чек.\n"
+            f"3. Сохраните чек или сделайте скриншот платежа.\n"
             f"4. <u><b>ОТПРАВЬТЕ СКРИНШОТ В ЭТОТ ЧАТ!</b></u>\n"
-            f"5. Нажмите «✅ Подтвердить оплату»."
+            f"5. Нажмите «✅ Подтвердить оплату» ниже."
         )
         requisites_text = f"{line1}\n\n{line2}\n{line3}\n{line4}\n{line5}\n\n{line6}\n\n{line7}\n\n{line8}"
 
