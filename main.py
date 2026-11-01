@@ -28,7 +28,7 @@ types.InlineKeyboardButton.__init__ = _safe_inline_btn_init
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("GMPBot")
 
-TOKEN = os.getenv("BOT_TOKEN", "8853332126:AAFWbcYv0yURZuXcRgcK0-GGvJP3WrhpBQI")
+TOKEN = os.getenv("BOT_TOKEN", "8747778861:AAEmgoZCI5i5deZe-6LZF2KymEV5dLEEXCY")
 bot = telebot.TeleBot(TOKEN)
 
 ADMIN_IDS = [6522383487, 7727345054]
