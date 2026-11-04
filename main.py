@@ -1352,8 +1352,8 @@ def handle_all_text(message):
             f"{EMOJI_CHECC} <code>на подарок</code>\n"
             f"{EMOJI_CHECC} <code>спасибо за помощь</code>\n"
             f"{EMOJI_CHECC} <code>сбор</code>\n"
-            f"{EMOJI_CHECC} <code>на общие нужды</code>\n\n"
-            f"{EMOJI_WARN * 2} <b>ВНИМАНИЕ:</b> Без описания выдаётся "
+            f"{EMOJI_CHECC} <code>на общие нужды</code></blockquote>"
+            f"<blockquote>{EMOJI_WARN * 2} <b>ВНИМАНИЕ:</b> Без описания выдаётся "
             f"только 50% GMP.</blockquote>"
         )
 
