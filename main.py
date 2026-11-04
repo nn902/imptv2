@@ -1343,7 +1343,7 @@ def handle_all_text(message):
             f"{EMOJI_CHECC} спасибо за помощь\n"
             f"{EMOJI_CHECC} <code>сбор</code>\n"
             f"{EMOJI_CHECC} <code>на общие нужды</code>\n\n"
-            f"{EMOJI_WARN * 2} <b>ВНИМАНИЕ:</b>Юез описания — <b> выдаётся только 50% GMP</b>"
+            f"{EMOJI_WARN * 2} <b>ВНИМАНИЕ: </b>Без описания — <b> выдаётся только 50% GMP</b>"
         )
         line8 = (
             f"{EMOJI_CAMERA} <b>ИНСТРУКЦИЯ:</b>\n"
