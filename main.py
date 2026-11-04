@@ -1324,49 +1324,74 @@ def handle_all_text(message):
 
         bonus_calc_line = ""
         if bonus_percent > 0:
-            time_left_str = bonuses['welcome_time_str'] if bonuses['welcome_5'] else bonuses['ref_time_str']
+            time_left_str = (
+                bonuses["welcome_time_str"]
+                if bonuses["welcome_5"]
+                else bonuses["ref_time_str"]
+            )
             bonus_calc_line = (
                 f"\n🎁 <i>Применен бонус +{bonus_percent}%: +{bonus_gmp_val} GMP!</i>\n"
-                f"⏳ <i>До сгорания: <code>{time_left_str}</code></i>\n"
+                f"⏳ <i>До сгорания: <code>{time_left_str}</code></i>"
             )
 
-line1 = (
-    f"{EMOJI_CARD} <b>{int(rub_value)}₽ → {final_gmp:,} GMP</b> "
-    f"(курс {rate}₽)\n"
-    f"{bonus_calc_line}"
-)
-
-line2 = f"{EMOJI_CLIP} <b>РЕКВИЗИТЫ ДЛЯ ОПЛАТЫ (СБП / ПЕРЕВОД):</b>"
-line3 = f"{EMOJI_WARN} Демид Андреевич П."
-line4 = f"{EMOJI_WARN} Банк: <b>ВТБ</b>"
-line5 = f"{EMOJI_WARN} <i>При переводе на другой банк — <b>GMP</b> не выдаю!</i>"
-line6 = f"{EMOJI_PHONE} <b>Номер (СБП):</b>\n<code>+79142515945</code>"
-
-line7 = (
-    f"<blockquote>{EMOJI_CSECK} <b>ОБЯЗАТЕЛЬНОЕ ПОЛЕ «ОПИСАНИЕ / СООБЩЕНИЕ ПОЛУЧАТЕЛЮ»:</b>\n"
-    "Напишите ОДНУ из фраз:\n"
-    f"{EMOJI_CHECC} <code>на подарок</code>\n"
-    f"{EMOJI_CHECC} <code>спасибо за помощь</code>\n"
-    f"{EMOJI_CHECC} <code>сбор</code>\n"
-    f"{EMOJI_CHECC} <code>на общие нужды</code>\n\n"
-    f"{EMOJI_WARN * 2} <b>ВНИМАНИЕ:</b> Без описания выдаётся только 50% GMP.</blockquote>"
-)
-
-line8 = (
-    f"{EMOJI_CAMERA} <b>ИНСТРУКЦИЯ:</b>\n"
-    f"1. Переведите <b>{int(rub_value)}₽</b> на ВТБ.\n"
-    "2. Укажите в комментарии одну из фраз выше.\n"
-    "3. Перейдите во вкладку «Чек» и сделайте скриншот.\n"
-    "4. <u><b>ОТПРАВЬТЕ СКРИНШОТ В ЭТОТ ЧАТ!</b></u>\n"
-    "5. Нажмите «✅ Подтвердить оплату» ниже."
+        line1 = (
+            f"{EMOJI_CARD} <b>{int(rub_value)}₽ → {final_gmp:,} GMP</b> "
+            f"(курс {rate}₽)\n"
+            f"{bonus_calc_line}"
         )
-        requisites_text = f"{line1}\n\n{line2}\n{line3}\n{line4}\n{line5}\n\n{line6}\n\n{line7}\n\n{line8}"
+        line2 = f"{EMOJI_CLIP} <b>РЕКВИЗИТЫ ДЛЯ ОПЛАТЫ (СБП / ПЕРЕВОД):</b>"
+        line3 = f"{EMOJI_WARN} Демид Андреевич П."
+        line4 = f"{EMOJI_WARN} Банк: <b>ВТБ</b>"
+        line5 = f"{EMOJI_WARN} <i>При переводе на другой банк — <b>GMP</b> не выдаю!</i>"
+        line6 = f"{EMOJI_PHONE} <b>Номер (СБП):</b>\n<code>+79142515945</code>"
+
+        line7 = (
+            f"<blockquote>{EMOJI_CSECK} <b>ОБЯЗАТЕЛЬНОЕ ПОЛЕ "
+            f"«ОПИСАНИЕ / СООБЩЕНИЕ ПОЛУЧАТЕЛЮ»:</b>\n"
+            "Напишите ОДНУ из фраз:\n"
+            f"{EMOJI_CHECC} <code>на подарок</code>\n"
+            f"{EMOJI_CHECC} <code>спасибо за помощь</code>\n"
+            f"{EMOJI_CHECC} <code>сбор</code>\n"
+            f"{EMOJI_CHECC} <code>на общие нужды</code>\n\n"
+            f"{EMOJI_WARN * 2} <b>ВНИМАНИЕ:</b> Без описания выдаётся "
+            f"только 50% GMP.</blockquote>"
+        )
+
+        line8 = (
+            f"{EMOJI_CAMERA} <b>ИНСТРУКЦИЯ:</b>\n"
+            f"1. Переведите <b>{int(rub_value)}₽</b> на ВТБ.\n"
+            "2. Укажите в комментарии одну из фраз выше.\n"
+            "3. Перейдите во вкладку «Чек» и сделайте скриншот.\n"
+            "4. <u><b>ОТПРАВЬТЕ СКРИНШОТ В ЭТОТ ЧАТ!</b></u>\n"
+            "5. Нажмите «✅ Подтвердить оплату» ниже."
+        )
+
+        requisites_text = (
+            f"{line1}\n\n{line2}\n{line3}\n{line4}\n{line5}\n\n"
+            f"{line6}\n\n{line7}\n\n{line8}"
+        )
 
         markup = types.InlineKeyboardMarkup()
-        markup.add(types.InlineKeyboardButton("✅ Подтвердить оплату", callback_data="pay_confirm", style="success"))
-        markup.add(types.InlineKeyboardButton("❌ Отмена", callback_data="back_to_main", style="danger"))
-        bot.send_message(message.chat.id, requisites_text, reply_markup=markup, parse_mode="HTML")
-
+        markup.add(
+            types.InlineKeyboardButton(
+                "✅ Подтвердить оплату",
+                callback_data="pay_confirm",
+                style="success"
+            )
+        )
+        markup.add(
+            types.InlineKeyboardButton(
+                "❌ Отмена",
+                callback_data="back_to_main",
+                style="danger"
+            )
+        )
+        bot.send_message(
+            message.chat.id,
+            requisites_text,
+            reply_markup=markup,
+            parse_mode="HTML"
+        )
 
 # === ЗАПУСК ===
 if __name__ == "__main__":
