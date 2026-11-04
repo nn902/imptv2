@@ -1346,15 +1346,18 @@ def handle_all_text(message):
         line6 = f"{EMOJI_PHONE} <b>Номер (СБП):</b>\n<code>+79142515945</code>"
 
         line7 = (
-            f"<blockquote>{EMOJI_CSECK} <b>ОБЯЗАТЕЛЬНОЕ ПОЛЕ "
-            f"«ОПИСАНИЕ / СООБЩЕНИЕ ПОЛУЧАТЕЛЮ»:</b>\n"
+            f"<blockquote>{EMOJI_CSECK} <b>ОБЯЗАТЕЛЬНОЕ ПОЛЕ «ОПИСАНИЕ/СООБЩЕНИЕ ПОЛУЧАТЕЛЮ»:</b>\n"
             "Напишите ОДНУ из фраз:\n"
             f"{EMOJI_CHECC} <code>на подарок</code>\n"
             f"{EMOJI_CHECC} <code>спасибо за помощь</code>\n"
             f"{EMOJI_CHECC} <code>сбор</code>\n"
-            f"{EMOJI_CHECC} <code>на общие нужды</code></blockquote>"
-            f"<blockquote>{EMOJI_WARN * 2} <b>ВНИМАНИЕ:</b> Без описания выдаётся "
-            f"только 50% GMP.</blockquote>"
+            f"{EMOJI_CHECC} <code>на общие нужды</code>"
+            "</blockquote>"
+        )
+
+        line7_warning = (
+            f"<blockquote>{EMOJI_WARN * 2} <b>ВНИМАНИЕ:</b> "
+            "Без описания — выдаётся только 50% GMP.</blockquote>"
         )
 
         line8 = (
