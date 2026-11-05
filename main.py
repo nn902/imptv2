@@ -1370,9 +1370,9 @@ def handle_all_text(message):
         )
 
         requisites_text = (
-            f"{line1}\n\n{line2}\n{line3}\n{line4}\n{line5}\n\n"
-            f"{line6}\n\n{line7}\n\n{line8}"
-        )
+    f"{line1}\n\n{line2}\n{line3}\n{line4}\n{line5}\n\n"
+    f"{line6}\n\n{line7}\n\n{line7_warning}\n\n{line8}"
+)
 
         markup = types.InlineKeyboardMarkup()
         markup.add(
