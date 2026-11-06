@@ -1187,6 +1187,7 @@ def handle_all_text(message):
             bot.send_message(admin, admin_review_msg, parse_mode="HTML")
         except Exception as e:
             logger.error(f"Не удалось переслать отзыв админу {admin}: {e}")
+            
     # --- РЕФЕРАЛЬНЫЙ СТАРТ ---
     referrer_id = None
     if message.text and message.text.startswith('/start'):
