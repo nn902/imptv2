@@ -277,6 +277,11 @@ def get_user_orders_history(user_id: int, limit: int = 5) -> list:
 
 
 def create_review(order_id, user_id, rub_amount, gmp_amount):
+    # Проверяем, есть ли уже отзыв от этого юзера на этот заказ
+    for review in DATA["reviews"]:
+        if review["order_id"] == order_id and review["user_id"] == user_id:
+            return "EXISTS"  # Отзыв уже есть
+
     review_id = DATA["next_review_id"]
     DATA["next_review_id"] += 1
     DATA["reviews"].append({
@@ -1151,28 +1156,37 @@ def handle_all_text(message):
             order_num_match = re.search(r"Заказ #(\d+)", replied_text)
             ord_num = order_num_match.group(1) if order_num_match else None
             if ord_num:
-                order = DATA["orders"].get(str(ord_num))
-                gmp_val = order["gmp_amount"] if order else 0
-                rub_val = int(order["rub_amount"]) if order else 0
+    order = DATA["orders"].get(str(ord_num))
+    gmp_val = order["gmp_amount"] if order else 0
+    rub_val = int(order["rub_amount"]) if order else 0
 
-                review_id = create_review(int(ord_num), user_id, rub_val, gmp_val) or 171
+    # Вызываем создание отзыва
+    review_id = create_review(int(ord_num), user_id, rub_val, gmp_val)
 
-                # ✅ НИКНЕЙМ (first_name), а не @username
-                buyer_display = message.from_user.first_name or f"@{message.from_user.username}"
+    # ПРОВЕРКА: Если вернулось "EXISTS", значит отзыв уже есть
+    if review_id == "EXISTS":
+        bot.reply_to(message, "❌ Один заказ - один отзыв")
+        return
 
-                admin_review_msg = (
-                    f"<b>Отзыв #{review_id}</b>\n"
-                    f"Продано — {gmp_val} {EMOJI_DIAMOND}\n"
-                    f"За {rub_val} {EMOJI_MONEY}\n\n"
-                    f"<b>Комментарий от — {buyer_display}:</b>\n\n"
-                    f"{html.escape(message.text)}"
-                )
-                for admin in ADMIN_IDS:
-                    try:
-                        bot.send_message(admin, admin_review_msg, parse_mode="HTML")
-                    except Exception as e:
-                        logger.error(f"Не удалось переслать отзыв админу {admin}: {e}")
+    # Если отзыв создан, получаем его ID
+    if not review_id:
+        review_id = 171
 
+    # ✅ НИКНЕЙМ (first_name), а не @username
+    buyer_display = message.from_user.first_name or f"@{message.from_user.username}"
+
+    admin_review_msg = (
+        f"<b>Отзыв #{review_id}</b>\n"
+        f"Продано — {gmp_val} {EMOJI_DIAMOND}\n"
+        f"За {rub_val} {EMOJI_MONEY}\n\n"
+        f"<b>Комментарий от — {buyer_display}:</b>\n\n"
+        f"{html.escape(message.text)}"
+    )
+    for admin in ADMIN_IDS:
+        try:
+            bot.send_message(admin, admin_review_msg, parse_mode="HTML")
+        except Exception as e:
+            logger.error(f"Не удалось переслать отзыв админу {admin}: {e}")
     # --- РЕФЕРАЛЬНЫЙ СТАРТ ---
     referrer_id = None
     if message.text and message.text.startswith('/start'):
