@@ -1158,11 +1158,11 @@ if message.reply_to_message and message.from_user.username:
         
         if ord_num:
             # ВНИМАНИЕ: Все строки ниже должны быть с отступом (нажатием Tab)
-            order = DATA["orders"].get(str(ord_num))
-            gmp_val = order["gmp_amount"] if order else 0
-            rub_val = int(order["rub_amount"]) if order else 0
+                 order = DATA["orders"].get(str(ord_num))
+                 gmp_val = order["gmp_amount"] if order else 0
+                 rub_val = int(order["rub_amount"]) if order else 0
 
-            review_id = create_review(int(ord_num), user_id, rub_val, gmp_val)
+                 review_id = create_review(int(ord_num), user_id, rub_val, gmp_val)
 
             if review_id == "EXISTS":
                 bot.reply_to(message, "❌ Один заказ - один отзыв")
