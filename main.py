@@ -1051,7 +1051,7 @@ def callback_inline(call):
             admin_bonus_text = state_data.get("admin_bonus_text", "")
             bonus_desc = state_data.get("bonus_desc", "")
 
-            order_id = create_pending_order(user_id, rub, gmp, file_id, bonus_desc)
+            create_pending_order(user_id, rub, gmp, file_id, bonus_desc)
             user_states[user_id] = None
 
             admin_msg = (
