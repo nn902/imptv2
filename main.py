@@ -1142,9 +1142,8 @@ def handle_media(message):
                 message,
                 f"{EMOJI_CSECK} Не удалось обработать файл. Попробуйте отправить ещё раз.",
                 parse_mode="HTML",
-            )
-            return
-
+                )
+                return
         # Ищем такой же хеш в заказах ЭТОГО пользователя (любой статус)
         for o in DATA["orders"].values():
             if o.get("user_id") == user_id and o.get("screenshot_hash") == file_hash:
