@@ -1,4 +1,5 @@
 import os
+import hashlib
 import json
 import time
 import ssl
@@ -207,7 +208,8 @@ def get_user_stats(user_id: int) -> dict:
 # 📦 ЗАКАЗЫ
 # ==============================================================================
 
-def create_pending_order(user_id: int, rub: float, gmp: int, file_id: str = None, bonus_desc: str = None) -> int:
+def create_pending_order(user_id: int, rub: float, gmp: int, file_id: str = None,
+                         bonus_desc: str = None, screenshot_hash: str = None) -> int:
     order_id = DATA["next_order_id"]
     DATA["next_order_id"] += 1
     DATA["orders"][str(order_id)] = {
@@ -217,6 +219,7 @@ def create_pending_order(user_id: int, rub: float, gmp: int, file_id: str = None
         "gmp_amount": gmp,
         "status": "pending",
         "file_id": file_id,
+        "screenshot_hash": screenshot_hash,   # <-- новое поле
         "bonus_desc": bonus_desc,
         "created_at": time.time(),
     }
@@ -1120,23 +1123,52 @@ def handle_media(message):
             bot.send_message(message.chat.id, help_text, reply_markup=skip_buttons_keyboard(), parse_mode="HTML")
             return
 
-    state_data = user_states.get(user_id)
-    if isinstance(state_data, dict) and state_data.get("state") == "awaiting_screenshot":
-        if message.content_type == 'photo':
-            file_id = message.photo[-1].file_id
-            is_photo = True
-        else:
-            file_id = getattr(message, message.content_type).file_id
-            is_photo = False
-        state_data["file_id"] = file_id
-        state_data["is_photo"] = is_photo
-        user_states[user_id] = state_data
+state_data = user_states.get(user_id)
+if isinstance(state_data, dict) and state_data.get("state") == "awaiting_screenshot":
+    if message.content_type == 'photo':
+        file_id = message.photo[-1].file_id
+        is_photo = True
+    else:
+        file_id = getattr(message, message.content_type).file_id
+        is_photo = False
+
+    # === ПРОВЕРКА НА ДУБЛИКАТ СКРИНШОТА (по SHA-256) ===
+    try:
+        file_info = bot.get_file(file_id)
+        downloaded = bot.download_file(file_info.file_path)
+        file_hash = hashlib.sha256(downloaded).hexdigest()
+    except Exception as e:
+        logger.error(f"Не удалось скачать файл для проверки хеша: {e}")
         bot.reply_to(
             message,
-            f"{EMOJI_CAMERA} <b>Скриншот получен!</b>\n\n"
-            f"Теперь нажмите «✅ Подтвердить оплату» под сообщением с реквизитами.",
+            f"{EMOJI_CSECK} Не удалось обработать файл. Попробуйте отправить ещё раз.",
             parse_mode="HTML",
         )
+        return
+
+    # Ищем такой же хеш в заказах ЭТОГО пользователя (любой статус)
+    for o in DATA["orders"].values():
+        if o.get("user_id") == user_id and o.get("screenshot_hash") == file_hash:
+            bot.reply_to(
+                message,
+                f"{EMOJI_CSECK} <b>Этот скриншот уже был отправлен ранее!</b>\n\n"
+                f"Каждый чек можно использовать только один раз.\n"
+                f"Отправьте новый скриншот чека об оплате.",
+                parse_mode="HTML",
+            )
+            return
+    # === КОНЕЦ ПРОВЕРКИ ===
+
+    state_data["file_id"] = file_id
+    state_data["is_photo"] = is_photo
+    state_data["screenshot_hash"] = file_hash    # <-- сохраняем в state
+    user_states[user_id] = state_data
+    bot.reply_to(
+        message,
+        f"{EMOJI_CAMERA} <b>Скриншот получен!</b>\n\n"
+        f"Теперь нажмите «✅ Подтвердить оплату» под сообщением с реквизитами.",
+        parse_mode="HTML",
+    )
 
 
 # ==============================================================================
