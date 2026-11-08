@@ -412,6 +412,15 @@ EMOJI_CAMERA   = '<tg-emoji emoji-id="5235837920081887219">📸</tg-emoji>'
 EMOJI_CHECK    = '<tg-emoji emoji-id="5206607081334906820">✔️</tg-emoji>'
 EMOJI_CHECC    = '<tg-emoji emoji-id="5465198403573012261">👉</tg-emoji>'
 EMOJI_CSECK    = '<tg-emoji emoji-id="5454093885888281840">⚠️</tg-emoji>'
+EMOJI_Q = '<tg-emoji emoji-id="5231200819986047254">📊</tg-emoji>'
+EMOJI_W = '<tg-emoji emoji-id="5422683699130933153">🪪</tg-emoji>'
+EMOJI_E = '<tg-emoji emoji-id="5280577434763168110">📕</tg-emoji>'
+EMOJI_R = '<tg-emoji emoji-id="5990147899403539264">💰</tg-emoji>'
+EMOJI_T = '<tg-emoji emoji-id="5469741319330996757">💫</tg-emoji>'
+EMOJI_Y = '<tg-emoji emoji-id="5244837092042750681">📈</tg-emoji>'
+EMOJI_U = '<tg-emoji emoji-id="5807587398204265606">⭐️</tg-emoji>'
+EMOJI_I = '<tg-emoji emoji-id="6028477497518068483">🌟</tg-emoji>'
+EMOJI_O = '<tg-emoji emoji-id="5289906563291574212">⚖️</tg-emoji>'
 
 START_TEXT = (
     f"{{bonus_block}}"
@@ -1093,14 +1102,14 @@ def callback_inline(call):
         bot.answer_callback_query(call.id)
         user_states[user_id] = "awaiting_stars"
         stars_text = (
-            f"{EMOJI_CARD} <b>Для подсчёта GMP отправьте сумму в звёздах</b>\n"
-            f"{EMOJI_WRITE} <i>Напишите просто числом (например: 500)</i>\n\n"
-            f"💰 Минимум: 25 💫\n"
-            f"💰 Максимум: 25000 ⭐️\n\n"
-            f"{EMOJI_CHART_UP} <b>Актуальные курсы:</b>\n\n"
-            f"{EMOJI_CHART} 25–499 💫 | 1 💫 = 2.8 GMP\n"
-            f"{EMOJI_CHART} 500–999 🌟 → 1 🌟 = 3 GMP\n"
-            f"{EMOJI_CHART} 1000–25000 ⭐️ | 1 ⭐️ = 3.2 GMP"
+            f"{EMOJI_W} <b>Для подсчёта GMP отправьте сумму в звёздах</b>\n"
+            f"{EMOJI_E} <i>Напишите просто числом (например: 500)</i>\n\n"
+            f"{EMOJI_R} Минимум: 25 {EMOJI_T}\n"
+            f"{EMOJI_R} Максимум: 25000 {EMOJI_U}\n\n"
+            f"{EMOJI_Y} <b>Актуальные курсы:</b>\n\n"
+            f"{EMOJI_Q} 25–499 {EMOJI_T} | 1 {EMOJI_T} <b>= 2.8 GMP</b>\n"
+            f"{EMOJI_Q} 500–999 {EMOJI_I} → 1 {EMOJI_I} <b>= 3 GMP</b>\n"
+            f"{EMOJI_Q} 1000–25000 {EMOJI_U} {EMOJI_O} 1 {EMOJI_U} <b>= 3.2 GMP</b>"
         )
         try:
             bot.edit_message_text(
